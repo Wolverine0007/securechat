@@ -6,11 +6,11 @@ frontend:
         - cd frontend && npm ci
     build:
       commands:
-        - cd frontend && npm run build
+        - npm run build
   artifacts:
-    baseDirectory: frontend/.next
+    baseDirectory: .next
     files:
       - '**/*'
   cache:
     paths:
-      - frontend/node_modules/**/*
+      - node_modules/**/*
