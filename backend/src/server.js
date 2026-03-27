@@ -3,7 +3,12 @@ const fastify = require('fastify')({ logger: true })
 
 // Register plugins
 fastify.register(require('@fastify/cors'), {
-  origin: 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    /\.amplifyapp\.com$/,     // AWS Amplify domains
+    /\.cloudfront\.net$/,     // CloudFront domains
+    process.env.FRONTEND_URL  // custom domain if set
+  ].filter(Boolean),
   credentials: true
 })
 
