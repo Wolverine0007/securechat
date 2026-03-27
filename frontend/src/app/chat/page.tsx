@@ -202,10 +202,10 @@ export default function ChatPage() {
 
   const syncContacts = async () => {
     try {
-      // @ts-expect-error contacts API not in TS types yet
+      // @ts-ignore
       if ('contacts' in navigator && 'ContactsManager' in window) {
         // Mobile browser — use native Contacts API
-        // @ts-expect-error contacts API
+        // @ts-ignore
         const contacts = await navigator.contacts.select(['tel'], { multiple: true })
         const phones   = contacts.flatMap((c: { tel: string[] }) => c.tel)
         if (!phones.length) return
