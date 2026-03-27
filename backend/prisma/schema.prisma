@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String   @id @default(uuid())
+  username   String   @unique
+  email      String   @unique
+  phone      String?  @unique
+  password   String
+  publicKey  String
+  verified   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  contacts         Contact[] @relation("ContactOwner")
+  contactedBy      Contact[] @relation("ContactUser")
+}
+
+model Contact {
+  id          String   @id @default(uuid())
+  ownerId     String
+  contactId   String
+  createdAt   DateTime @default(now())
+
+  owner       User @relation("ContactOwner", fields: [ownerId],   references: [id])
+  contactUser User @relation("ContactUser",  fields: [contactId], references: [id])
+
+  @@unique([ownerId, contactId])
+}
+
+model OtpCode {
+  id        String   @id @default(uuid())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id              String   @id @default(uuid())
+  ciphertext      String
+  senderId        String
+  receiverId      String
+  senderPublicKey String   @default("")
+  mediaType       String?  // e.g. "image/png", "application/pdf"
+  mediaName       String?  // original filename
+  createdAt       DateTime @default(now())
+
+  sender   User @relation("SentMessages",   fields: [senderId],   references: [id])
+  receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id])
+}

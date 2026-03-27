@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment variables — never commit these
+.env
+.env.local
+.env.production
+
+# Next.js build output
+frontend/.next/
+frontend/out/
+
+# Prisma generated
+generated/prisma
+
+# Logs
+*.log
+/tmp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

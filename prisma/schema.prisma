@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  phone     String?  @unique
+  password  String
+  publicKey String
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  contacts         Contact[] @relation("OwnerContacts")
+  contactOf        Contact[] @relation("ContactUsers")
+}
+
+model Message {
+  id              String   @id @default(uuid())
+  ciphertext      String
+  senderPublicKey String   @default("")
+  senderId        String
+  receiverId      String
+  createdAt       DateTime @default(now())
+
+  sender   User @relation("SentMessages",   fields: [senderId],   references: [id])
+  receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id])
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  ownerId   String
+  contactId String
+  createdAt DateTime @default(now())
+
+  owner       User @relation("OwnerContacts", fields: [ownerId],   references: [id])
+  contactUser User @relation("ContactUsers",  fields: [contactId], references: [id])
+
+  @@unique([ownerId, contactId])
+}
+
+model OtpCode {
+  id        String   @id @default(uuid())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

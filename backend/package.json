@@ -1,0 +1,30 @@
+{
+  "name": "securechat-backend",
+  "version": "1.0.0",
+  "description": "Secure chat backend",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.0",
+    "@fastify/jwt": "^8.0.0",
+    "@fastify/websocket": "^10.0.0",
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.0",
+    "fastify": "^4.0.0",
+    "nodemailer": "^8.0.4",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/pg": "^8.11.0",
+    "nodemon": "^3.0.0",
+    "prisma": "^7.5.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
